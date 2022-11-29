@@ -31,7 +31,6 @@ public class SimpleJDBCRepository {
     public Long createUser() throws SQLException {
         Long id = null;
         try { connection = dataSource.getConnection();
-             ps = connection.prepareStatement(createUserSQL);
             ps = connection.prepareStatement(createUserSQL);
             ps.setString(1, user.getFirstName());
             ps.setString(2, user.getLastName());
