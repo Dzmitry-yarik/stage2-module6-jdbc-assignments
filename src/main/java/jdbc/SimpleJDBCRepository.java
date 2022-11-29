@@ -28,7 +28,7 @@ public class SimpleJDBCRepository {
     private static final String findUserByNameSQL = "SELECT * FROM users WHERE name = ?";
     private static final String findAllUserSQL = "SELECT * FROM users";
 
-    public Long createUser() throws SQLException {
+    public Long createUser(User user) throws SQLException {
         Long id = null;
         try { connection = dataSource.getConnection();
             ps = connection.prepareStatement(createUserSQL);
@@ -126,7 +126,7 @@ public class SimpleJDBCRepository {
         return users;
     }
 
-    public User updateUser() {
+    public User updateUser(User user) {
         try {
             connection = dataSource.getConnection();
             ps = connection.prepareStatement(updateUserSQL);
