@@ -64,36 +64,38 @@ public class CustomDataSource implements DataSource {
 
     @Override
     public PrintWriter getLogWriter() throws SQLException {
-        return null;
+        throw new SQLException();
     }
 
     @Override
     public void setLogWriter(PrintWriter printWriter) throws SQLException {
+        throw new SQLException();
 
     }
 
     @Override
     public void setLoginTimeout(int i) throws SQLException {
+        throw new SQLException();
 
     }
 
     @Override
     public int getLoginTimeout() throws SQLException {
-        return 0;
+        throw new SQLException();
     }
 
     @Override
     public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-        return null;
+       throw new SQLFeatureNotSupportedException();
     }
 
     @Override
     public <T> T unwrap(Class<T> aClass) throws SQLException {
-        return null;
+       throw new SQLException();
     }
 
     @Override
     public boolean isWrapperFor(Class<?> aClass) throws SQLException {
-        return false;
+       throw new SQLException();
     }
 }
