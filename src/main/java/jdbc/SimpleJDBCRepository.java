@@ -20,7 +20,17 @@ public class SimpleJDBCRepository {
     private Connection connection = null;
     private PreparedStatement ps = null;
     private Statement st = null;
-    private CustomDataSource dataSource = CustomDataSource.getInstance();;
+    private CustomDataSource dataSource;
+
+    {
+        try {
+            dataSource = CustomDataSource.getInstance();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
 
     private static final String createUserSQL = "INSERT INTO users (firstname, lastname, age) VALUES(?, ?, ?)";
     private static final String updateUserSQL = "UPDATE users SET firstname = ?, lastname = ?, age = ? WHERE id = ?";
@@ -28,9 +38,6 @@ public class SimpleJDBCRepository {
     private static final String findUserByIdSQL = "SELECT * FROM users WHERE id = ?";
     private static final String findUserByNameSQL = "SELECT * FROM users WHERE name = ?";
     private static final String findAllUserSQL = "SELECT * FROM users";
-
-    public SimpleJDBCRepository() throws IOException {
-    }
 
     public Long createUser(User user) throws SQLException {
         Long id = null;
