@@ -1,14 +1,12 @@
 package jdbc;
 
-import javax.sql.DataSource;
-
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.ConnectionBuilder;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.Properties;
@@ -32,20 +30,26 @@ public class CustomDataSource implements DataSource {
         instance = this;
     }
 
-    public static CustomDataSource getInstance() throws IOException, NullPointerException {
+    public static CustomDataSource getInstance() {
         if (instance == null) {
             synchronized (lock) {
-                Properties properties = new Properties();
-                properties.load(
-                        CustomDataSource.class.getClassLoader().getResourceAsStream("app.properties")
-                );
-                instance = new CustomDataSource(
-                        properties.getProperty("postgres.driver"),
-                        properties.getProperty("postgres.url"),
-                        properties.getProperty("postgres.name"),
-                        properties.getProperty("postgres.password")
+                if (instance == null) {
+                    try {
+                        Properties properties = new Properties();
+                        properties.load(
+                                CustomDataSource.class.getClassLoader().getResourceAsStream("app.properties")
+                        );
+                        instance = new CustomDataSource(
+                                properties.getProperty("postgres.driver"),
+                                properties.getProperty("postgres.url"),
+                                properties.getProperty("postgres.name"),
+                                properties.getProperty("postgres.password")
 
-                );
+                        );
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
         }
         return instance;
@@ -53,12 +57,12 @@ public class CustomDataSource implements DataSource {
 
 
     @Override
-    public Connection getConnection() throws SQLException {
+    public Connection getConnection() {
         return new CustomConnector().getConnection(url, name, password);
     }
 
     @Override
-    public Connection getConnection(String s, String s1) throws SQLException {
+    public Connection getConnection(String s, String s1) {
         return new CustomConnector().getConnection(url, name, password);
     }
 
