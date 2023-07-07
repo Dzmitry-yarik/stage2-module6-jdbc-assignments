@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class CustomConnector {
-    public static final String MYSQL_JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    
-    public Connection getConnection(String url) {
+    public static Connection connection;
+
+    public static Connection getConnection(String url) {
         try {
             return DriverManager.getConnection(url);
         } catch ( SQLException e) {
@@ -16,14 +16,11 @@ public class CustomConnector {
         return connection;
     }
 
-    public Connection getConnection(String url, String user, String password)  {
-            Connection connection;
+    public Connection getConnection(String url, String user, String password) {
         try {
-            Class.forName(MYSQL_JDBC_DRIVER);
-/           connection = DriverManager.getConnection(url, user, password);
-        } catch (SQLException | ClassNotFoundException e) {
-            System.out.println(e);
-            throw new RuntimeException(e);
+            return DriverManager.getConnection(url, user, password);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return connection;
     }
