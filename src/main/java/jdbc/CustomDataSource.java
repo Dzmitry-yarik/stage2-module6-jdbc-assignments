@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 @Getter
 @Setter
 public class CustomDataSource implements DataSource {
-    private static volatile CustomDataSource instance;
+    private static volatile CustomDataSource instance = null;
     private final String driver;
     private final String url;
     private final String name;
@@ -26,7 +26,6 @@ public class CustomDataSource implements DataSource {
         this.url = url;
         this.password = password;
         this.name = name;
-        instance = this;
     }
 
     public static CustomDataSource getInstance() {
@@ -44,7 +43,7 @@ public class CustomDataSource implements DataSource {
                                 properties.getProperty("postgres.password")
                         );
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        throw new NullPointerException();
                     }
                 }
             }
@@ -54,6 +53,7 @@ public class CustomDataSource implements DataSource {
 
     @Override
     public Connection getConnection() {
+        new CustomConnector().getConnection(url);
         return new CustomConnector().getConnection(url, name, password);
     }
 
