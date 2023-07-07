@@ -17,37 +17,36 @@ public class SimpleJDBCRepository {
     private CustomDataSource dataSource = CustomDataSource.getInstance();
     private Connection connection = dataSource.getConnection();
 
-
-    private static final String createUserSQL = """
+    private static final String CREATE_USER = """
             INSERT INTO myfirstdb.myusers(
             firstname, lastname, age)
             VALUES (?, ?, ?);
             """;
-    private static final String updateUserSQL = """
+    private static final String UPDATE_USER = """
             UPDATE myfirstdb.myusers
             SET firstname=?, lastname=?, age=?
             WHERE id = ?
             """;
-    private static final String deleteUser = """
+    private static final String DELETE_USER = """
             DELETE FROM myfirstdb.myusers
             WHERE id = ?
             """;
-    private static final String findUserByIdSQL = """
+    private static final String FIND_USER_BY_ID = """
             SELECT id, firstname, lastname, age FROM myfirstdb.myusers
             WHERE id = ?
             """;
-    private static final String findUserByNameSQL = """
+    private static final String FIND_USER_BY_NAME = """
             SELECT id, firstname, lastname, age FROM myfirstdb.myusers
             WHERE firstname LIKE CONCAT('%',?,'%')
             """;
-    private static final String findAllUserSQL = """
+    private static final String FIND_ALL_USER = """
             SELECT id, firstname, lastname, age FROM myfirstdb.myusers
             """;
 
     public Long createUser(User user) {
         Long id = null;
 
-        try (PreparedStatement statement = connection.prepareStatement(createUserSQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(CREATE_USER)) {
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
             statement.setInt(3, user.getAge());
@@ -65,7 +64,7 @@ public class SimpleJDBCRepository {
     public User findUserById(Long userId) {
         User user = null;
 
-        try (PreparedStatement statement = connection.prepareStatement(findUserByIdSQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(FIND_USER_BY_ID)) {
             statement.setLong(1, userId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -80,7 +79,7 @@ public class SimpleJDBCRepository {
     public User findUserByName(String userName) {
         User user = null;
 
-        try (PreparedStatement statement = connection.prepareStatement(findUserByNameSQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(FIND_USER_BY_NAME)) {
             statement.setString(1, userName);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -95,7 +94,7 @@ public class SimpleJDBCRepository {
     public List<User> findAllUser() {
         List<User> users = new ArrayList<>();
 
-        try (PreparedStatement statement = connection.prepareStatement(findAllUserSQL)) {
+        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL_USER)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 users.add(parserUser(resultSet));
@@ -108,7 +107,7 @@ public class SimpleJDBCRepository {
 
     public User updateUser(User user) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(updateUserSQL)) {
+             PreparedStatement statement = connection.prepareStatement(UPDATE_USER)) {
             statement.setLong(4, user.getId());
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
@@ -124,7 +123,7 @@ public class SimpleJDBCRepository {
 
     public void deleteUser(Long userId) {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(deleteUser)) {
+             PreparedStatement statement = connection.prepareStatement(DELETE_USER)) {
             statement.setLong(1, userId);
             statement.executeUpdate();
         } catch (SQLException e) {
