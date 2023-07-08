@@ -57,7 +57,6 @@ public class SimpleJDBCRepository {
             statement.execute();
             resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-//                System.out.println(resultSet.getLong((int) (id+1)) + " Q");
                 return resultSet.getLong(1);
             }
         } catch (SQLException e) {
@@ -66,7 +65,7 @@ public class SimpleJDBCRepository {
         if(user.getId() == null) {
             user.setId(1L);
         }else user.setId(id+1L);
-        return user.getId()+1L;
+        return user.getId();
     }
 
     public User findUserById(Long userId) {
