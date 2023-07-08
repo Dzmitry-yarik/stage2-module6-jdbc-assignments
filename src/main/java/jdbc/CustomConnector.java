@@ -10,7 +10,7 @@ public class CustomConnector {
 
     public static Connection getConnection(String url) {
         try {
-            return connection = DriverManager.getConnection(url);
+            return DriverManager.getConnection(url);
         } catch ( SQLException e) {
             e.printStackTrace();
         }
@@ -19,7 +19,7 @@ public class CustomConnector {
 
     public Connection getConnection(String url, String user, String password) {
         try {
-            return  connection = DriverManager.getConnection(url, user, password);
+            return DriverManager.getConnection(url, user, password);
         } catch (Exception e) {
             e.printStackTrace();
         }
