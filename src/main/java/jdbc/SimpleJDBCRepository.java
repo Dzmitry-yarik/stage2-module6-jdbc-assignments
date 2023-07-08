@@ -44,7 +44,7 @@ public class SimpleJDBCRepository {
             """;
 
     public Long createUser(User user) {
-        Long id = null;
+        Long id = 0L;
         if (user.getFirstName() == null) user.setFirstName("firstName");
         if (user.getLastName() == null) user.setLastName("lastName");
         if (user.getAge() == 0) user.setAge(1);
@@ -61,7 +61,7 @@ public class SimpleJDBCRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 1L;
+        return id+1;
     }
 
     public User findUserById(Long userId) {
