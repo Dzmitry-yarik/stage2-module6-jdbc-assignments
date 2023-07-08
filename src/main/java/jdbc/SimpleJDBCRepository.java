@@ -44,7 +44,6 @@ public class SimpleJDBCRepository {
             """;
 
     public Long createUser(User user) {
-        ResultSet resultSet = null;
         Long id = null;
 
         if (user.getFirstName() == null) user.setFirstName("firstName");
@@ -52,7 +51,7 @@ public class SimpleJDBCRepository {
         if (user.getAge() == 0) user.setAge(1);
 
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(CREATE_USER_SQL, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement statement = connection.prepareStatement(CREATE_USER, Statement.RETURN_GENERATED_KEYS)) {
             statement.setObject(1, user.getFirstName());
             statement.setObject(2, user.getLastName());
             statement.setObject(3, user.getAge());
@@ -64,6 +63,7 @@ public class SimpleJDBCRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println(id);
         return id;
     }
 
