@@ -45,26 +45,26 @@ public class SimpleJDBCRepository {
 
     public Long createUser(User user) {
         ResultSet resultSet = null;
+        Long id = null;
+
         if (user.getFirstName() == null) user.setFirstName("firstName");
         if (user.getLastName() == null) user.setLastName("lastName");
         if (user.getAge() == 0) user.setAge(1);
 
-        try (PreparedStatement statement = connection.prepareStatement(CREATE_USER)) {
-            statement.setString(1, user.getFirstName());
-            statement.setString(2, user.getLastName());
-            statement.setInt(3, user.getAge());
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(CREATE_USER_SQL, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setObject(1, user.getFirstName());
+            statement.setObject(2, user.getLastName());
+            statement.setObject(3, user.getAge());
             statement.execute();
-            resultSet = statement.getGeneratedKeys();
+            ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-                return resultSet.getLong(1);
+                id = resultSet.getLong(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if(user.getId() == null || user.getId() == 0) {
-            user.setId(1L);
-        }else user.setId(user.getId()+1L);
-        return user.getId();
+        return id;
     }
 
     public User findUserById(Long userId) {
