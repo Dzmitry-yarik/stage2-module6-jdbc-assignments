@@ -5,9 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class CustomConnector {
-    public Connection connection;
+    private static CustomDataSource dataSource = CustomDataSource.getInstance();
+    public static Connection connection = dataSource.getConnection();
 
-    public Connection getConnection(String url) {
+    public static Connection getConnection(String url) {
         try {
             return connection = DriverManager.getConnection(url);
         } catch ( SQLException e) {
@@ -18,7 +19,7 @@ public class CustomConnector {
 
     public Connection getConnection(String url, String user, String password) {
         try {
-            return connection = DriverManager.getConnection(url, user, password);
+            return  connection = DriverManager.getConnection(url, user, password);
         } catch (Exception e) {
             e.printStackTrace();
         }
