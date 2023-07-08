@@ -140,7 +140,7 @@ public class SimpleJDBCRepository {
             lastname = resultSet.getString(3);
             age = resultSet.getInt("age");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+             e.printStackTrace();
         }
 
         User user = new User(id, firstname, lastname, age);
