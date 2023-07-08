@@ -56,12 +56,12 @@ public class SimpleJDBCRepository {
             statement.execute();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-                id = resultSet.getLong(1);
+                return resultSet.getLong(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return id;
+        return 0L;
     }
 
     public User findUserById(Long userId) {
