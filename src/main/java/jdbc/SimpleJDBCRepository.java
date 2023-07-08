@@ -56,7 +56,7 @@ public class SimpleJDBCRepository {
             statement.execute();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-                return resultSet.getLong(1);
+                return resultSet.getLong((int) (id+1));
             }
         } catch (SQLException e) {
             e.printStackTrace();
