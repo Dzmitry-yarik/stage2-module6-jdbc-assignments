@@ -53,7 +53,6 @@ public class CustomDataSource implements DataSource {
 
     @Override
     public Connection getConnection() {
-        new CustomConnector().getConnection(url);
         return new CustomConnector().getConnection(url, name, password);
     }
 
