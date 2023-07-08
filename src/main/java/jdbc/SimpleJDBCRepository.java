@@ -18,29 +18,29 @@ public class SimpleJDBCRepository {
     private Connection connection = dataSource.getConnection();
 
     private static final String CREATE_USER = """
-            INSERT INTO myfirstdb.myusers(
+            INSERT INTO myusers(
             firstname, lastname, age)
             VALUES (?, ?, ?);
             """;
     private static final String UPDATE_USER = """
-            UPDATE myfirstdb.myusers
+            UPDATE myusers
             SET firstname=?, lastname=?, age=?
             WHERE id = ?
             """;
     private static final String DELETE_USER = """
-            DELETE FROM myfirstdb.myusers
+            DELETE FROM myusers
             WHERE id = ?
             """;
     private static final String FIND_USER_BY_ID = """
-            SELECT id, firstname, lastname, age FROM myfirstdb.myusers
+            SELECT id, firstname, lastname, age FROM myusers
             WHERE id = ?
             """;
     private static final String FIND_USER_BY_NAME = """
-            SELECT id, firstname, lastname, age FROM myfirstdb.myusers
+            SELECT id, firstname, lastname, age FROM myusers
             WHERE firstname LIKE CONCAT('%',?,'%')
             """;
     private static final String FIND_ALL_USER = """
-            SELECT id, firstname, lastname, age FROM myfirstdb.myusers
+            SELECT id, firstname, lastname, age FROM myusers
             """;
 
     public Long createUser(User user) {
@@ -106,8 +106,7 @@ public class SimpleJDBCRepository {
     }
 
     public User updateUser(User user) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_USER)) {
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_USER)) {
             statement.setLong(4, user.getId());
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
@@ -122,8 +121,7 @@ public class SimpleJDBCRepository {
     }
 
     public void deleteUser(Long userId) {
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_USER)) {
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_USER)) {
             statement.setLong(1, userId);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -149,3 +147,5 @@ public class SimpleJDBCRepository {
         return user;
     }
 }
+
+
