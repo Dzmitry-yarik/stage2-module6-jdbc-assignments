@@ -47,6 +47,7 @@ public class SimpleJDBCRepository {
         Long id = null;
         if (user.getFirstName() == null) user.setFirstName("firstName");
         if (user.getLastName() == null) user.setLastName("lastName");
+        if (user.getAge() == 0) user.setAge(1);
 
         try (PreparedStatement statement = connection.prepareStatement(CREATE_USER)) {
             statement.setString(1, user.getFirstName());
