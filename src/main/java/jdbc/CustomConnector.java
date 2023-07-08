@@ -19,7 +19,7 @@ public class CustomConnector {
 
     public Connection getConnection(String url, String user, String password) {
         try {
-            return DriverManager.getConnection(url, user, password);
+              return  connection = DriverManager.getConnection(url, user, password);
         } catch (Exception e) {
             e.printStackTrace();
         }
