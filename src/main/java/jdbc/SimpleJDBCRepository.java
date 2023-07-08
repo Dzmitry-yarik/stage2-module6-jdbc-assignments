@@ -44,7 +44,6 @@ public class SimpleJDBCRepository {
             """;
 
     public Long createUser(User user) {
-        Long id = 0L;
         ResultSet resultSet = null;
         if (user.getFirstName() == null) user.setFirstName("firstName");
         if (user.getLastName() == null) user.setLastName("lastName");
@@ -62,9 +61,9 @@ public class SimpleJDBCRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if(user.getId() == null) {
+        if(user.getId() == null || user.getId() == 0) {
             user.setId(1L);
-        }else user.setId(id+1L);
+        }else user.setId(user.getId()+1L);
         return user.getId();
     }
 
