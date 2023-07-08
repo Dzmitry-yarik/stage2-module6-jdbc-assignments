@@ -61,7 +61,7 @@ public class SimpleJDBCRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0L;
+        return 1L;
     }
 
     public User findUserById(Long userId) {
